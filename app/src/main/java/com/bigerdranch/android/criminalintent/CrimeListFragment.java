@@ -20,6 +20,9 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
 
+    private static final int REQUEST_CRIME = 1;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
@@ -65,9 +68,20 @@ public class CrimeListFragment extends Fragment {
             // 需要再AndroidManifest.xml文件添加对应的activity文件的声明,切记  -->
             // <activity android:name=".CrimeActivity">
             //Intent intent = new Intent(getActivity(), CrimeActivity.class);
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            //设计更新使用ViewPager，更改托管CrimeFragment的CrimeActivity为CrimePagerActivity
+            //Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
             startActivity(intent);
+            //以下代码是需要返回结果的时候需要执行的，配合下面的onActivityResult 函数来实现返回结果
+            //startActivityForResult(intent, REQUEST_CRIME);
 
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == REQUEST_CRIME){
+            //pass
         }
     }
 

@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import java.util.UUID;
 
+
+//本类已经废弃不用，改用为CrimePagerActivity
 public class CrimeActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_CRIME_ID =
@@ -22,6 +24,7 @@ public class CrimeActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
+        //本方法指明该activity托管CrimeFragment
         //return new CrimeFragment();
         UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
         return CrimeFragment.newInstance(crimeId);
