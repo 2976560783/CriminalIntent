@@ -12,9 +12,11 @@
         <activity android:name=".CrimeListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <!--  要实现跳转到对应的activity，需要再AndroidManifest.xml文件添加对应的activity文件的声明  -->
+        <activity android:name=".CrimeActivity">
         </activity>
     </application>
 

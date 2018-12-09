@@ -1,5 +1,6 @@
 package com.bigerdranch.android.criminalintent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -47,19 +48,33 @@ public class CrimeListFragment extends Fragment {
             itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
-            mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
+            mSolvedImageView = (ImageView) itemView.findViewById(R.id.ic_crime_solved);
         }
 
         public void bind(Crime crime){
             mCrime = crime;
             mDateTextView.setText(mCrime.getDate().toString());
             mTitleTextView.setText(mCrime.getTitle());
-            mSolvedImageView.setVisibility(crime.isSolved()?View.VISIBLE:View.GONE);
+            mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE:View.GONE);
         }
         @Override
         public void onClick(View view){
-            Toast.makeText(getActivity(),mCrime.getTitle()+"clicked",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(),mCrime.getTitle()+"clicked",Toast.LENGTH_SHORT).show();
+
+            //<!--  要实现跳转到对应的activity，
+            // 需要再AndroidManifest.xml文件添加对应的activity文件的声明,切记  -->
+            // <activity android:name=".CrimeActivity">
+            //Intent intent = new Intent(getActivity(), CrimeActivity.class);
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
+
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateUI();
     }
 
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder>{
@@ -92,7 +107,12 @@ public class CrimeListFragment extends Fragment {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
-        mAdapter = new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(mAdapter);
+        if(mAdapter == null){
+            mAdapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        }else{
+            mAdapter.notifyDataSetChanged();
+        }
+
     }
 }
