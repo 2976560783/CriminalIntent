@@ -11,7 +11,13 @@ public class Crime {
 
     //默认构造函数只自动设置ID和日期
     public Crime(){
-        mId = UUID.randomUUID();
+        this(UUID.randomUUID());
+        //mId = UUID.randomUUID();
+        //mDate = new Date();
+    }
+
+    public Crime(UUID id){
+        mId = id;
         mDate = new Date();
     }
 
